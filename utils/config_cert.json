@@ -1,0 +1,51 @@
+[
+  {
+    "opcao": "default",
+    "TAMANHO_TEXTO_EMPRESA": [2800, 230],
+    "TAMANHO_TEXTO_SEGMENTO": [2800, 220],
+    "TAMANHO_TEXTO_CIDADE_UF": [800, 150],
+    "XY_NOME_EMPRESA": [490, 1395],
+    "XY_SEGMENTO_EMPRESA": [490, 1745],
+    "XY_CIDADE_UF_EMPRESA": [1375, 2080]
+  },
+  {
+    "opcao": "retroativo",
+    "TAMANHO_TEXTO_EMPRESA": [3220, 230],
+    "TAMANHO_TEXTO_SEGMENTO": [3073, 216],
+    "TAMANHO_TEXTO_CIDADE_UF": [755, 145],
+    "XY_NOME_EMPRESA": [150, 1364],
+    "XY_SEGMENTO_EMPRESA": [230, 1717],
+    "XY_CIDADE_UF_EMPRESA" : [
+      {
+        "ano": "2016",
+        "xy": [1145, 2097],
+        "size_text": [1235, 170]
+      },
+      {
+        "ano": "2017",
+        "xy": [1445, 2100],
+        "size_text": [995, 145]
+      },
+      {
+        "ano": "2018",
+        "xy": [1225, 2097],
+        "size_text": [995, 170]
+      },
+      {
+        "ano": "2019",
+        "xy": [1225, 2097],
+        "size_text": [995, 170]
+      },
+      {
+        "ano": "2020",
+        "xy": [1335, 2130],
+        "size_text": [800, 120]
+      },
+      {
+        "ano": "2021",
+        "xy": [1340, 2100],
+        "size_text": [755, 145]
+      }
+    ]
+  }
+]
