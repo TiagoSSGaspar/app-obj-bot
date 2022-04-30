@@ -18,7 +18,6 @@ user_dict = {}
 # Handle '/start' and '/help'
 @bot.message_handler(commands=['help', 'start'])
 def send_welcome(message):
-    print(message)
     msg = bot.reply_to(message, f"""\
         Olá! {message.chat.first_name} quer criar um certificado ?
     digite sua senha antes de tudo
@@ -36,7 +35,7 @@ def process_password_compare_step(message):
             msg = bot.send_message(chat_id, 'Qual o ano do certificado', reply_markup=markup)
             bot.register_next_step_handler(msg, process_year_step)
         else:
-            bot.send_message(chat_id, 'Você é um forateiro! caso não seja clique aqui => /start')
+            bot.send_message(chat_id, 'Você é um forasteiro! caso não seja clique aqui => /start')
 
     except Exception as e:
         bot.reply_to(message, 'oooops! deu ruim refaça tudo amigo! clicando aqui => /start')
@@ -60,7 +59,7 @@ def process_company_step(message):
         nome_fantasia = message.text
         user = user_dict[chat_id]
         user.nome_fantasia = nome_fantasia
-        msg = bot.send_message(chat_id, 'Agora digite o segmento?')
+        msg = bot.send_message(chat_id, 'Agora digite o segmento')
         bot.register_next_step_handler(msg, process_segment_step)
     except Exception as e:
         bot.reply_to(message, 'oooops! deu ruim refaça tudo amigo! clicando aqui => /start')
