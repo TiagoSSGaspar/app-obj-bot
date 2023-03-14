@@ -1,6 +1,15 @@
 [
   {
     "opcao": "default",
+    "TAMANHO_TEXTO_EMPRESA": [3150, 230],
+    "TAMANHO_TEXTO_SEGMENTO": [3000, 220],
+    "TAMANHO_TEXTO_CIDADE_UF": [900, 150],
+    "XY_NOME_EMPRESA": [195, 1385],
+    "XY_SEGMENTO_EMPRESA": [315, 1745],
+    "XY_CIDADE_UF_EMPRESA": [1208, 2080]
+  },
+  {
+    "opcao": "default2",
     "TAMANHO_TEXTO_EMPRESA": [2800, 230],
     "TAMANHO_TEXTO_SEGMENTO": [2800, 220],
     "TAMANHO_TEXTO_CIDADE_UF": [800, 150],

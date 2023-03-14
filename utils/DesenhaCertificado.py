@@ -1,3 +1,6 @@
+import os
+import random
+
 from PIL import Image, ImageDraw, ImageFont
 
 from model import Certificado
@@ -15,7 +18,7 @@ class DesenhaCertificado:
         self.config_certificado = config_certificado
         self.opcoes = {}
 
-        if self.certificado.ano == '2022':
+        if self.certificado.ano == '2023':
             self.opcoes = self.procurar_config('default')
         else:
             self.opcoes = self.procurar_config('retroativo')
@@ -44,7 +47,7 @@ class DesenhaCertificado:
 
         xy_cidade_uf_empresa = None
 
-        if self.certificado.ano != '2022':
+        if self.certificado.ano != '2023':
             for opcao in self.opcoes['XY_CIDADE_UF_EMPRESA']:
                 if self.certificado.ano == opcao['ano']:
                     xy_cidade_uf_empresa = tuple(opcao['xy'])
@@ -73,6 +76,6 @@ class DesenhaCertificado:
 
             img.paste(texto_cidade_uf_empresa_png, xy_cidade_uf_empresa, texto_cidade_uf_empresa_png)
 
-            return img
+            return img #.save("./certs/obj-{}{}.jpg".format(self.certificado.nome_fantasia, random.random()))
         except Exception as e:
             print(e)
