@@ -15,6 +15,7 @@ bot = telebot.TeleBot(API_TOKEN)
 user_dict = {}
 
 
+
 # Handle '/start' and '/help'
 @bot.message_handler(commands=['help', 'start'])
 def send_welcome(message):

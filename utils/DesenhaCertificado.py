@@ -20,6 +20,8 @@ class DesenhaCertificado:
 
         if self.certificado.ano == '2023':
             self.opcoes = self.procurar_config('default')
+        elif self.certificado.ano == '2022':
+            self.opcoes = self.procurar_config('default2')
         else:
             self.opcoes = self.procurar_config('retroativo')
 
@@ -47,7 +49,7 @@ class DesenhaCertificado:
 
         xy_cidade_uf_empresa = None
 
-        if self.certificado.ano != '2023':
+        if self.certificado.ano != '2023' and self.certificado.ano != '2022':
             for opcao in self.opcoes['XY_CIDADE_UF_EMPRESA']:
                 if self.certificado.ano == opcao['ano']:
                     xy_cidade_uf_empresa = tuple(opcao['xy'])
@@ -76,6 +78,12 @@ class DesenhaCertificado:
 
             img.paste(texto_cidade_uf_empresa_png, xy_cidade_uf_empresa, texto_cidade_uf_empresa_png)
 
-            return img #.save("./certs/obj-{}{}.jpg".format(self.certificado.nome_fantasia, random.random()))
+            # Abrir o arquivo em modo "append"
+            with open('log.txt', mode='a') as arquivo:
+                # Escrever uma nova linha no final do arquivo
+                arquivo.write('{} == {} \n'.format(self.certificado.nome_fantasia, self.certificado.cidade))
+
+            #return img
+            return img.save("./certs/obj-{}{}.jpg".format(self.certificado.nome_fantasia, random.random()))
         except Exception as e:
             print(e)

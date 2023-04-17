@@ -2,7 +2,7 @@ class Certificado:
 
     def __init__(
             self, nome_fantasia='', nome_divulgacao='', segmento='', cidade='', uf='',
-            telefone='', preco='', obs='', tipo='', retroativos=None, ano='2023'
+            retroativos=None, telefone='', preco='', obs='', tipo='', ano='2023'
     ):
         if retroativos is None:
             retroativos = []
