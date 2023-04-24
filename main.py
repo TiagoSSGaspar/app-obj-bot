@@ -14,16 +14,24 @@ bot = telebot.TeleBot(API_TOKEN)
 
 user_dict = {}
 
+def compare_strings(str1, str2):
+    return str1.lower() == str2.lower()
 
 
 # Handle '/start' and '/help'
 @bot.message_handler(commands=['help', 'start'])
 def send_welcome(message):
-    msg = bot.reply_to(message, f"""\
-        Olá! {message.chat.first_name} quer criar um certificado ?
-    digite sua senha antes de tudo
-    """)
-    bot.register_next_step_handler(msg, process_password_compare_step)
+    #barrar1 = compare_strings(message.chat.first_name, 'Nelson')
+
+    if False:
+      msg = bot.reply_to(message,'Você não é uma pessoa autorizado')
+      bot.register_next_step_handler(msg)
+    else:
+        msg = bot.reply_to(message, f"""\
+            Olá! {message.chat.first_name} quer criar um certificado ?
+        digite sua senha antes de tudo
+        """)
+        bot.register_next_step_handler(msg, process_password_compare_step)
 
 
 def process_password_compare_step(message):
@@ -81,6 +89,7 @@ def process_segment_step(message):
 
 
 def process_city_step(message):
+    barrar2 = compare_strings(message.text, 'Euclides da Cunha')
     try:
         chat_id = message.chat.id
         cidade = message.text
@@ -88,7 +97,10 @@ def process_city_step(message):
         user.cidade = cidade
 
         msg = bot.send_message(chat_id, 'Agora digite o UF da cidade exemplo => BA, AL, PI')
-        bot.register_next_step_handler(msg, process_uf_step)
+        if barrar2:
+            bot.reply_to(message, 'oooops! deu ruim')
+        else:
+            bot.register_next_step_handler(msg, process_uf_step)
 
     except Exception as e:
         bot.reply_to(message, 'oooops! deu ruim refaça tudo amigo! clicando aqui => /start')

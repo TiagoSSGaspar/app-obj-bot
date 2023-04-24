@@ -83,7 +83,7 @@ class DesenhaCertificado:
                 # Escrever uma nova linha no final do arquivo
                 arquivo.write('{} == {} \n'.format(self.certificado.nome_fantasia, self.certificado.cidade))
 
-            #return img
-            return img.save("./certs/obj-{}{}.jpg".format(self.certificado.nome_fantasia, random.random()))
+            return img
+            #return img.save("./certs/obj-{}{}.jpg".format(self.certificado.nome_fantasia, random.random()))
         except Exception as e:
             print(e)

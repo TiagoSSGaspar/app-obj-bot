@@ -53,6 +53,7 @@ def process_lista_entrega():
         nome_divulgacao = obj['nomeDivulgacao']
         preco = obj['preco']
         obs = obj['obs']
+        cidade = obj['cidade']
         if nome_divulgacao != '':
             empresa = nome_divulgacao
 
@@ -62,8 +63,8 @@ def process_lista_entrega():
         paragrafo = documento.add_paragraph()
         paragrafo.add_run(text).bold = True
 
-    #documento.save('lista-entrega.docx')
-    documento.save('lista-divulgação.docx')
+    #documento.save('{}-lista-entrega.docx'.format(cidade))
+    documento.save('{}-lista-divulgação.docx'.format(cidade))
 
 
 #process_certificado_step()
