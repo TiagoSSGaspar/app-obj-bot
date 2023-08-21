@@ -1,8 +1,11 @@
+import datetime
+
+
 class Certificado:
 
     def __init__(
             self, nome_fantasia='', nome_divulgacao='', segmento='', cidade='', uf='',
-            retroativos=None, telefone='', preco='', obs='', tipo='', ano='2023'
+            retroativos=None, telefone='', preco='', obs='', tipo='', ano=None
     ):
         if retroativos is None:
             retroativos = []
@@ -16,4 +19,8 @@ class Certificado:
         self.obs = obs
         self.tipo = tipo
         self.retroativos = retroativos
-        self.ano = ano
+
+        if ano is None:
+            self.ano = datetime.datetime.now().year
+        else:
+            self.ano = ano
