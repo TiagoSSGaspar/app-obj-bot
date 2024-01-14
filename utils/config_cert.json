@@ -1,6 +1,15 @@
 [
   {
     "opcao": "default",
+    "TAMANHO_TEXTO_EMPRESA": [2481,200],
+    "TAMANHO_TEXTO_SEGMENTO": [2682,200],
+    "TAMANHO_TEXTO_CIDADE_UF": [883,140],
+    "XY_NOME_EMPRESA": [737, 1275],
+    "XY_SEGMENTO_EMPRESA": [592, 1662],
+    "XY_CIDADE_UF_EMPRESA": [1287,2037]
+  },
+    {
+    "opcao": "2023",
     "TAMANHO_TEXTO_EMPRESA": [3150, 230],
     "TAMANHO_TEXTO_SEGMENTO": [3000, 220],
     "TAMANHO_TEXTO_CIDADE_UF": [900, 150],
@@ -9,7 +18,7 @@
     "XY_CIDADE_UF_EMPRESA": [1208, 2080]
   },
   {
-    "opcao": "default2",
+    "opcao": "2022",
     "TAMANHO_TEXTO_EMPRESA": [2800, 230],
     "TAMANHO_TEXTO_SEGMENTO": [2800, 220],
     "TAMANHO_TEXTO_CIDADE_UF": [800, 150],
@@ -23,7 +32,7 @@
     "TAMANHO_TEXTO_SEGMENTO": [3073, 216],
     "TAMANHO_TEXTO_CIDADE_UF": [755, 145],
     "XY_NOME_EMPRESA": [150, 1364],
-    "XY_SEGMENTO_EMPRESA": [230, 1717],
+    "XY_SEGMENTO_EMPRESA": [230, 1737],
     "XY_CIDADE_UF_EMPRESA" : [
       {
         "ano": "2016",

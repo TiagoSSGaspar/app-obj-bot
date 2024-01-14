@@ -1,3 +1,4 @@
+import datetime
 import os
 import random
 
@@ -14,14 +15,19 @@ class DesenhaCertificado:
         if config_certificado is None:
             config_certificado = []
         self.certificado = certificado
-        self.cor_texto = (255, 255, 255, 255)
+        if certificado.ano in ["2024"]:
+            self.cor_texto = (0, 0, 0, 255)
+        else:
+            self.cor_texto = (255, 255, 255, 255)
         self.config_certificado = config_certificado
         self.opcoes = {}
 
-        if self.certificado.ano == '2023':
+        if str(self.certificado.ano) == str(datetime.datetime.now().year):
             self.opcoes = self.procurar_config('default')
-        elif self.certificado.ano == '2022':
-            self.opcoes = self.procurar_config('default2')
+        elif str(self.certificado.ano) == '2022':
+            self.opcoes = self.procurar_config('2022')
+        elif str(self.certificado.ano) == '2023':
+            self.opcoes = self.procurar_config('2023')
         else:
             self.opcoes = self.procurar_config('retroativo')
 
@@ -42,16 +48,16 @@ class DesenhaCertificado:
 
         return nova_img
 
-    def criar_certificado(self) -> Image:
+    def criar_certificado(self, modo_bot: bool = False) -> Image:
         tamanho_texto_empresa = tuple(self.opcoes['TAMANHO_TEXTO_EMPRESA'])
         tamanho_texto_segmento = tuple(self.opcoes['TAMANHO_TEXTO_SEGMENTO'])
         tamanho_texto_cidade_uf = tuple(self.opcoes['TAMANHO_TEXTO_CIDADE_UF'])
 
         xy_cidade_uf_empresa = None
 
-        if self.certificado.ano != '2023' and self.certificado.ano != '2022':
+        if not str(self.certificado.ano) in ['2022', '2023', '2024']:
             for opcao in self.opcoes['XY_CIDADE_UF_EMPRESA']:
-                if self.certificado.ano == opcao['ano']:
+                if str(self.certificado.ano) == opcao['ano']:
                     xy_cidade_uf_empresa = tuple(opcao['xy'])
                     tamanho_texto_cidade_uf = tuple(opcao['size_text'])
         else:
@@ -82,8 +88,9 @@ class DesenhaCertificado:
             with open('log.txt', mode='a') as arquivo:
                 # Escrever uma nova linha no final do arquivo
                 arquivo.write('{} == {} \n'.format(self.certificado.nome_fantasia, self.certificado.cidade))
-
-            return img
-            #return img.save("./certs/obj-{}{}.jpg".format(self.certificado.nome_fantasia, random.random()))
+            if modo_bot:
+                return img
+            else:
+                return img.save("./certs/obj-{}{}.jpg".format(self.certificado.nome_fantasia, random.random()))
         except Exception as e:
             print(e)

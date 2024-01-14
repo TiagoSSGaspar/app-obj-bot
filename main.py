@@ -146,7 +146,7 @@ def process_certificado_step(message):
             bot.send_message(chat_id, 'Clique aqui ==> /start para refazer')
         else:
             draw = DesenhaCertificado(user, __config_cert())
-            photo = draw.criar_certificado()
+            photo = draw.criar_certificado(modo_bot=True)
             if photo:
                 print(photo)
                 bot.send_message(chat_id, 'Aguarde...')

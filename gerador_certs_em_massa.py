@@ -40,32 +40,50 @@ def process_certificado_step():
         print(c)
 
 
-documento = Document()
-
-
-
-def process_lista_entrega():
-    users = certs()
-    c = 0
+def process_lista_entrega(users):
+    texts = []
     for obj in users:
-        empresa = obj['empresa']
-        segmento = obj['segmento']
-        nome_divulgacao = obj['nomeDivulgacao']
-        preco = obj['preco']
-        obs = obj['obs']
-        cidade = obj['cidade']
-        if nome_divulgacao != '':
-            empresa = nome_divulgacao
+        segmento = obj.get('segmento', '')
+        empresa = obj.get('nomeDivulgacao', '') or obj.get('empresa', '')
+        preco = obj.get('preco', '')
+        obs = obj.get('obs', '')
 
-        text = '{} = {}'.format(segmento, empresa)
-        #text = '{} = {} = {} = {}'.format(segmento, empresa, preco, obs)
+        text = f'{segmento} = {empresa} = {preco} = {obs}'
+        texts.append(text)
 
-        paragrafo = documento.add_paragraph()
+    cidade = users[0].get('cidade', 'desconhecida') if users else 'desconhecida'
+    filename = f'{cidade}-lista-entrega.docx'
+    return texts, filename
+
+
+def process_lista_divulgacao(users):
+    texts = []
+    for obj in users:
+        segmento = obj.get('segmento', '')
+        empresa = obj.get('nomeDivulgacao', '') or obj.get('empresa', '')
+
+        text = f'{segmento} = {empresa}'
+        texts.append(text)
+
+    cidade = users[0].get('cidade', 'desconhecida') if users else 'desconhecida'
+    filename = f'{cidade}-lista-divulgação.docx'
+    return texts, filename
+
+
+# Exemplo de uso:
+users = certs()
+texts_entrega, filename_entrega = process_lista_entrega(users)
+texts_divulgacao, filename_divulgacao = process_lista_divulgacao(users)
+
+
+def save_to_docx(texts, filename):
+    doc = Document()
+    for text in texts:
+        paragrafo = doc.add_paragraph()
         paragrafo.add_run(text).bold = True
+    doc.save(filename)
 
-    #documento.save('{}-lista-entrega.docx'.format(cidade))
-    documento.save('{}-lista-divulgação.docx'.format(cidade))
-
-
-#process_certificado_step()
-process_lista_entrega()
+if __name__ == '__main__':
+    process_certificado_step()
+    save_to_docx(texts_entrega, filename_entrega)
+    save_to_docx(texts_divulgacao, filename_divulgacao)

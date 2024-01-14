@@ -21,6 +21,6 @@ class Certificado:
         self.retroativos = retroativos
 
         if ano is None:
-            self.ano = datetime.datetime.now().year
+            self.ano = str(datetime.datetime.now().year)
         else:
             self.ano = ano
