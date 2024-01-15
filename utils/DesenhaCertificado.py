@@ -48,7 +48,7 @@ class DesenhaCertificado:
 
         return nova_img
 
-    def criar_certificado(self, modo_bot: bool = False) -> Image:
+    def criar_certificado(self, modo_bot: bool = True) -> Image:
         tamanho_texto_empresa = tuple(self.opcoes['TAMANHO_TEXTO_EMPRESA'])
         tamanho_texto_segmento = tuple(self.opcoes['TAMANHO_TEXTO_SEGMENTO'])
         tamanho_texto_cidade_uf = tuple(self.opcoes['TAMANHO_TEXTO_CIDADE_UF'])
