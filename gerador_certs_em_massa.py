@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import json
 from model.Certificado import Certificado
 from utils.DesenhaCertificado import DesenhaCertificado
@@ -5,13 +6,13 @@ from docx import Document
 
 
 def config_cert() -> list:
-    with open('./utils/config_cert.json') as config_json:
+    with open('./utils/config_cert.json', encoding='utf-8') as config_json:
         config_certificado = json.load(config_json)
         return config_certificado
 
 
 def certs() -> list:
-    with open('./utils/cert.json') as config_json:
+    with open('./utils/cert.json', encoding='utf-8') as config_json:
         config_certificado = json.load(config_json)
         return config_certificado
 
@@ -29,12 +30,12 @@ def process_certificado_step():
             obj['retroativos']
         )
         draw = DesenhaCertificado(cert, config_cert())
-        draw.criar_certificado()
+        draw.criar_certificado(modo_bot=False)
         if len(cert.retroativos) > 0:
             for certObj in cert.retroativos:
                 cert.ano = certObj
                 draw = DesenhaCertificado(cert, config_cert())
-                draw.criar_certificado()
+                draw.criar_certificado(modo_bot=False)
 
         c += 1
         print(c)

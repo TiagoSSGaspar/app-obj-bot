@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import datetime
 import os
 import random
@@ -91,6 +92,12 @@ class DesenhaCertificado:
             if modo_bot:
                 return img
             else:
+                if self.certificado.ano == '2024':
+                    resized_img = img.resize((3505, 2449), Image.Resampling.LANCZOS)
+                    resized_img.save("./certs/obj-{}{}.jpg".format(self.certificado.nome_fantasia, random.random()))
+                    return
+
                 return img.save("./certs/obj-{}{}.jpg".format(self.certificado.nome_fantasia, random.random()))
+
         except Exception as e:
             print(e)
