@@ -12,23 +12,31 @@ def config_cert() -> list:
 
 
 def certs() -> list:
-    with open('./utils/cert.json', encoding='utf-8') as config_json:
-        config_certificado = json.load(config_json)
-        return config_certificado
+    list_certs = []
+    with open('./utils/newCert.json') as config_json:
+        obj_sales = json.load(config_json)[0]
+        sales = obj_sales['sales']
+
+        for obj in sales:
+            cert = Certificado(
+                nome_fantasia=obj['company'],
+                nome_divulgacao=obj['divulgationName'],
+                segmento=obj['segment'],
+                cidade=obj_sales['cityName'],
+                uf=obj_sales['uf'],
+                retroativos=obj['retroactiveCertificates'],
+                preco=obj['amount'],
+                obs=obj['obs'],
+            )
+
+            list_certs.append(cert)
+        return list_certs
 
 
 def process_certificado_step():
     users = certs()
     c = 0
-    for obj in users:
-        cert = Certificado(
-            obj['empresa'],
-            obj['nomeDivulgacao'],
-            obj['segmento'],
-            obj['cidade'],
-            obj['uf'],
-            obj['retroativos']
-        )
+    for cert in users:
         draw = DesenhaCertificado(cert, config_cert())
         draw.criar_certificado(modo_bot=False)
         if len(cert.retroativos) > 0:
@@ -44,15 +52,15 @@ def process_certificado_step():
 def process_lista_entrega(users):
     texts = []
     for obj in users:
-        segmento = obj.get('segmento', '')
-        empresa = obj.get('nomeDivulgacao', '') or obj.get('empresa', '')
-        preco = obj.get('preco', '')
-        obs = obj.get('obs', '')
+        segmento = obj.segmento
+        empresa = obj.empresa
+        preco = obj.preco
+        obs = obj.obs
 
         text = f'{segmento} = {empresa} = {preco} = {obs}'
         texts.append(text)
 
-    cidade = users[0].get('cidade', 'desconhecida') if users else 'desconhecida'
+    cidade = users[0].cidade if users else 'desconhecida'
     filename = f'{cidade}-lista-entrega.docx'
     return texts, filename
 
@@ -60,19 +68,19 @@ def process_lista_entrega(users):
 def process_lista_divulgacao(users):
     texts = []
     for obj in users:
-        segmento = obj.get('segmento', '')
-        empresa = obj.get('nomeDivulgacao', '') or obj.get('empresa', '')
-        
+        segmento = obj.segmento
+        empresa = obj.nomeDivulgacao or obj.empresa
+
         text = f'{segmento} = {empresa}'
         texts.append(text)
 
-    cidade = users[0].get('cidade', 'desconhecida') if users else 'desconhecida'
+    cidade = users[0].cidade if users else 'desconhecida'
     filename = f'{cidade}-lista-divulgação.docx'
     return texts, filename
 
 
 # Exemplo de uso:
-users = certs()
+users = {}  # certs()
 texts_entrega, filename_entrega = process_lista_entrega(users)
 texts_divulgacao, filename_divulgacao = process_lista_divulgacao(users)
 
@@ -83,6 +91,7 @@ def save_to_docx(texts, filename):
         paragrafo = doc.add_paragraph()
         paragrafo.add_run(text).bold = True
     doc.save(filename)
+
 
 if __name__ == '__main__':
     process_certificado_step()

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import datetime
-import os
 import random
 
 from PIL import Image, ImageDraw, ImageFont

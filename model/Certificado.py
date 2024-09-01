@@ -6,7 +6,7 @@ class Certificado:
 
     def __init__(
             self, nome_fantasia='', nome_divulgacao='', segmento='', cidade='', uf='',
-            retroativos=None, telefone='', preco='', obs='', tipo='', ano=None
+            retroativos: list[str] = [], telefone='', preco='', obs='', tipo='', ano=None
     ):
         if retroativos is None:
             retroativos = []
