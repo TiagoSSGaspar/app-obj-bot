@@ -1,8 +1,14 @@
-# -*- coding: utf-8 -*-
+## -*- coding: utf-8 -*-
 import json
+import requests
+import sys
+import io
+
 from model.Certificado import Certificado
 from utils.DesenhaCertificado import DesenhaCertificado
 from docx import Document
+
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 
 def config_cert() -> list:
@@ -11,30 +17,69 @@ def config_cert() -> list:
         return config_certificado
 
 
-def certs() -> list:
+def fetch_and_select_item(url: str):
+    try:
+        # Buscar dados da API
+        response = requests.get(url)
+        response.raise_for_status()
+        data = response.json()
+
+        # Verificar se a resposta contém uma lista de dicionários
+        if not isinstance(data, list):
+            print("Dados não são uma lista.")
+            return
+
+        if not data:
+            print("Nenhuma venda encontrada.")
+            return
+
+        # Exibir lista de vendas
+        for idx, item in enumerate(data):
+            # Exibir uma chave específica do dicionário, ajuste conforme necessário
+            print(f"{idx + 1}: {item.get('cityName', 'N/A')}")
+
+        # Obter seleção do usuário
+        while True:
+            try:
+                choice = int(input(f"Escolha um item (1-{len(data)}): "))
+                if 1 <= choice <= len(data):
+                    selected_item = data[choice - 1]
+                    print(f"Você selecionou: {selected_item}")
+                    return selected_item
+                else:
+                    print("Escolha inválida, tente novamente.")
+            except ValueError:
+                print("Entrada inválida, por favor insira um número.")
+
+    except requests.RequestException as e:
+        print(f"Erro ao buscar dados da API: {e}")
+
+
+def certs(obj_sales) -> list:
     list_certs = []
-    with open('./utils/newCert.json') as config_json:
-        obj_sales = json.load(config_json)[0]
-        sales = obj_sales['sales']
+    sales = obj_sales['sales']
 
-        for obj in sales:
-            cert = Certificado(
-                nome_fantasia=obj['company'],
-                nome_divulgacao=obj['divulgationName'],
-                segmento=obj['segment'],
-                cidade=obj_sales['cityName'],
-                uf=obj_sales['uf'],
-                retroativos=obj['retroactiveCertificates'],
-                preco=obj['amount'],
-                obs=obj['obs'],
-            )
+    for obj in sales:
+        cert = Certificado(
+            nome_fantasia=obj['company'],
+            nome_divulgacao=obj['divulgationName'],
+            segmento=obj['segment'],
+            cidade=obj_sales['cityName'],
+            uf=obj_sales['uf'],
+            retroativos=obj['retroactiveCertificates'],
+            preco=obj['amount'],
+            obs=obj['obs'],
+        )
 
-            list_certs.append(cert)
-        return list_certs
+        list_certs.append(cert)
 
+    return list_certs
+
+
+obj_sales = fetch_and_select_item('https://api-obj-for-android.onrender.com/sales-register')
+users = certs(obj_sales)
 
 def process_certificado_step():
-    users = certs()
     c = 0
     for cert in users:
         draw = DesenhaCertificado(cert, config_cert())
@@ -53,7 +98,7 @@ def process_lista_entrega(users):
     texts = []
     for obj in users:
         segmento = obj.segmento
-        empresa = obj.empresa
+        empresa = obj.nome_fantasia
         preco = obj.preco
         obs = obj.obs
 
@@ -69,7 +114,7 @@ def process_lista_divulgacao(users):
     texts = []
     for obj in users:
         segmento = obj.segmento
-        empresa = obj.nomeDivulgacao or obj.empresa
+        empresa = obj.nome_fantasia or obj.nome_divulgacao
 
         text = f'{segmento} = {empresa}'
         texts.append(text)
@@ -80,7 +125,6 @@ def process_lista_divulgacao(users):
 
 
 # Exemplo de uso:
-users = {}  # certs()
 texts_entrega, filename_entrega = process_lista_entrega(users)
 texts_divulgacao, filename_divulgacao = process_lista_divulgacao(users)
 

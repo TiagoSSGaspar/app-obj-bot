@@ -84,10 +84,6 @@ class DesenhaCertificado:
 
             img.paste(texto_cidade_uf_empresa_png, xy_cidade_uf_empresa, texto_cidade_uf_empresa_png)
 
-            # Abrir o arquivo em modo "append"
-            with open('log.txt', mode='a') as arquivo:
-                # Escrever uma nova linha no final do arquivo
-                arquivo.write('{} == {} \n'.format(self.certificado.nome_fantasia, self.certificado.cidade))
             if modo_bot:
                 return img
             else:
