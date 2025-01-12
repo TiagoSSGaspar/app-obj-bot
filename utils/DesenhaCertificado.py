@@ -15,7 +15,7 @@ class DesenhaCertificado:
         if config_certificado is None:
             config_certificado = []
         self.certificado = certificado
-        if certificado.ano in ["2024"]:
+        if certificado.ano in ["2024", "2025"]:
             self.cor_texto = (0, 0, 0, 255)
         else:
             self.cor_texto = (255, 255, 255, 255)
@@ -55,7 +55,7 @@ class DesenhaCertificado:
 
         xy_cidade_uf_empresa = None
 
-        if not str(self.certificado.ano) in ['2022', '2023', '2024']:
+        if not str(self.certificado.ano) in ['2022', '2023', '2024', str(datetime.datetime.now().year)]:
             for opcao in self.opcoes['XY_CIDADE_UF_EMPRESA']:
                 if str(self.certificado.ano) == opcao['ano']:
                     xy_cidade_uf_empresa = tuple(opcao['xy'])
