@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import datetime
+
 import telebot
 import json
 
@@ -40,7 +42,7 @@ def process_password_compare_step(message):
         password = message.text
         if password_app == password:
             markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
-            markup.add('2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024')
+            markup.add('2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', str(datetime.datetime.now().year),)
             msg = bot.send_message(chat_id, 'Qual o ano do certificado', reply_markup=markup)
             bot.register_next_step_handler(msg, process_year_step)
         else:
